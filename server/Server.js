@@ -1,5 +1,10 @@
 const express = require('express');
 
+/**
+ * @dbConnection
+ */
+const databaseConnect = require('../database/config');
+
 class Server {
   constructor() {
     this.app = express();
@@ -8,7 +13,12 @@ class Server {
       user: '/api/user',
     };
 
+    this.dbConnection();
     this.middleware();
+  }
+
+  dbConnection() {
+    databaseConnect();
   }
 
   middleware() {
