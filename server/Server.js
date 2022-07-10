@@ -15,6 +15,7 @@ class Server {
 
     this.dbConnection();
     this.middleware();
+    this.routes();
   }
 
   dbConnection() {
@@ -26,7 +27,7 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.paths.user, '../APIs/user/user-routes.js');
+    this.app.use(this.paths.user, require('../APIs/user/user-routes'));
   }
 
   listen() {
