@@ -4,12 +4,19 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 4000;
+    this.paths = {
+      user: '/api/user',
+    };
 
     this.middleware();
   }
 
   middleware() {
     this.app.use(express.json());
+  }
+
+  routes() {
+    this.app.use(this.paths.user, '../APIs/user/user-routes.js');
   }
 
   listen() {
