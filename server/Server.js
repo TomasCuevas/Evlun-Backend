@@ -4,6 +4,12 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 4000;
+
+    this.middleware();
+  }
+
+  middleware() {
+    this.app.use(express.json());
   }
 
   listen() {
