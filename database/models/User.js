@@ -27,6 +27,10 @@ const UserSchema = new Schema({
     default:
       'https://res.cloudinary.com/dn3kl3egc/image/upload/v1636226226/Avatar/avatar_default.png',
   },
+  date: {
+    type: Date,
+    default: new Date().getTime(),
+  },
 });
 
 UserSchema.method('toJSON', function () {
