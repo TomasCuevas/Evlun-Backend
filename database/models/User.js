@@ -17,10 +17,20 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  state: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  avatar: {
+    type: String,
+    default:
+      'https://res.cloudinary.com/dn3kl3egc/image/upload/v1636226226/Avatar/avatar_default.png',
+  },
 });
 
 UserSchema.method('toJSON', function () {
-  const { __v, password, object } = this.toObject();
+  const { __v, password, state, object } = this.toObject();
   return object;
 });
 
