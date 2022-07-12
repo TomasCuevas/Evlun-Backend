@@ -31,6 +31,14 @@ const UserSchema = new Schema({
     type: Number,
     required: true,
   },
+  followers: {
+    type: Array,
+    default: [],
+  },
+  followings: {
+    type: Array,
+    default: [],
+  },
 });
 
 UserSchema.method('toJSON', function () {
