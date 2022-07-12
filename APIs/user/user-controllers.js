@@ -38,7 +38,13 @@ const userSignup = async (req = request, res = response) => {
     const encryptedPassword = bcryptjs.hashSync(password, salt);
 
     // generar usuario
-    const newUser = { name, username, email, password: encryptedPassword };
+    const newUser = {
+      name,
+      username,
+      email,
+      password: encryptedPassword,
+      date: new Date().getTime(),
+    };
     const user = await new User(newUser);
     await user.save();
 
