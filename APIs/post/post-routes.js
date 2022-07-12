@@ -15,7 +15,7 @@ const { fieldsValidation, JWTValidation } = require('../../middleware');
 /**
  * @controllers
  */
-const { createPost } = require('./post-controllers');
+const { createPost, getAllPosts } = require('./post-controllers');
 
 /**
  * @routes
@@ -32,5 +32,7 @@ router.post(
   ],
   createPost,
 );
+
+router.get('/all', [JWTValidation], getAllPosts);
 
 module.exports = router;
