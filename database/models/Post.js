@@ -14,10 +14,7 @@ const PostSchema = new Schema({
     type: Number,
     required: true,
   },
-  likes: {
-    type: Array,
-    default: [],
-  },
+  likes: [{ type: Schema.Types.ObjectId, ref: 'users' }],
   comments: {
     type: Array,
     default: [],
