@@ -10,7 +10,7 @@ const router = Router();
 /**
  * @middlewares
  */
-const fieldsValidation = require('../../middleware/fieldsValidation');
+const { fieldsValidation, JWTValidation } = require('../../middleware');
 
 /**
  * @helpers
@@ -20,7 +20,7 @@ const { nameValidation, usernameValidation, emailValidation } = require('../../h
 /**
  * @controllers
  */
-const { userSignup } = require('./user-controllers');
+const { userSignup, followUser } = require('./user-controllers');
 
 /**
  * @routes
@@ -28,7 +28,10 @@ const { userSignup } = require('./user-controllers');
 router.post(
   '/signup',
   [
-    check('name', 'El nombre debe tener entre 2 y 25 caracteres.').custom(nameValidation),
+    check(
+      'name',
+      'El nombre debe tener entre 2 y 25 caracteres. (Solo puede contener letras)',
+    ).custom(nameValidation),
     check(
       'username',
       'El nombre de usuario debe tener entre 4 y 15 caracteres. (Solo puede tener letras, numeros y guiones)',
@@ -41,6 +44,16 @@ router.post(
     fieldsValidation,
   ],
   userSignup,
+);
+
+router.post(
+  '/follow',
+  [
+    check('id', 'El ID del usuario no es valido o no fue ingresado.').isMongoId(),
+    JWTValidation,
+    fieldsValidation,
+  ],
+  followUser,
 );
 
 module.exports = router;
