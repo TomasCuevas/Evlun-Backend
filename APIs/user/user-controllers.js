@@ -71,14 +71,6 @@ const followUser = async (req = request, res = response) => {
     const userToFollowId = req.query.id;
     const userId = req._id;
 
-    // validar que los id no sean iguales
-    if (userToFollowId === userId) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'No puedes seguirte a ti mismo.',
-      });
-    }
-
     // buscar usuario por el id en la base de datos
     const userToFollow = await User.findById(userToFollowId);
     if (!userToFollow) {
@@ -99,11 +91,11 @@ const followUser = async (req = request, res = response) => {
       });
     }
 
-    // agregar ID a la coleccion del usuario al cual comienzan a seguir
+    // agregar ID a la coleccion followers
     userToFollow.followers.push(userId);
     userToFollow.save();
 
-    // agregar ID a la coleccion del usuario que comienza a seguir
+    // agregar ID a la coleccion followings
     const followingUser = await User.findById(userId);
     followingUser.followings.push(userToFollowId);
     followingUser.save();
@@ -111,7 +103,57 @@ const followUser = async (req = request, res = response) => {
     // respuesta al frontend
     res.status(201).json({
       ok: true,
-      msg: 'Following a new user.',
+      msg: 'Follow.',
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Contacte con un administrador.',
+    });
+  }
+};
+
+const unfollowUser = async (req = request, res = response) => {
+  try {
+    const userId = req._id;
+    const unfollowUserId = req.query.id;
+
+    // buscar usuario por ID en la base de datos
+    const unfollowUser = await User.findById(unfollowUserId);
+    if (!unfollowUser) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No existe usuario con el ID ingresado.',
+      });
+    }
+
+    // validar que siga al usuario previamente
+    const alreadyFollow = unfollowUser.followers.find((id) => {
+      if (id.toString() === userId) return true;
+    });
+    if (!alreadyFollow) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No sigues al usuario indicado..',
+      });
+    }
+
+    // quitar ID a la coleccion followers
+    const newFollowers = unfollowUser.followers.filter((id) => id.toString() !== userId);
+    unfollowUser.followers = newFollowers;
+    unfollowUser.save();
+
+    // quitar ID a la coleccion followings
+    const followingUser = await User.findById(userId);
+    const newFollowings = followingUser.followings.filter((id) => id.toString() !== unfollowUserId);
+    followingUser.followings = newFollowings;
+    followingUser.save();
+
+    // respuesta al frontend
+    res.status(200).json({
+      ok: true,
+      msg: 'Unfollow.',
     });
   } catch (error) {
     console.log(error);
@@ -125,4 +167,5 @@ const followUser = async (req = request, res = response) => {
 module.exports = {
   userSignup,
   followUser,
+  unfollowUser,
 };
