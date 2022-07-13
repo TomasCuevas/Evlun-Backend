@@ -20,7 +20,8 @@ const { nameValidation, usernameValidation, emailValidation } = require('../../h
 /**
  * @controllers
  */
-const { userSignup, followUser } = require('./user-controllers');
+const { userSignup, followUser, unfollowUser } = require('./user-controllers');
+const differentIdsValidation = require('../../middleware/differentIdsValidation');
 
 /**
  * @routes
@@ -51,9 +52,21 @@ router.post(
   [
     check('id', 'El ID del usuario no es valido o no fue ingresado.').isMongoId(),
     JWTValidation,
+    differentIdsValidation,
     fieldsValidation,
   ],
   followUser,
+);
+
+router.post(
+  '/unfollow',
+  [
+    check('id', 'El ID del usuario no es valido o no fue ingresado.').isMongoId(),
+    JWTValidation,
+    differentIdsValidation,
+    fieldsValidation,
+  ],
+  unfollowUser,
 );
 
 module.exports = router;
