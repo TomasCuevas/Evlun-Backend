@@ -1,6 +1,6 @@
 # user API
 
-## **_/api/user/signup_**
+### **_/api/user/signup_**
 
 `request body`
 
@@ -19,7 +19,28 @@
 - token: JsonWebToken
 ```
 
-## **_/api/user/follow_**
+### **_/api/user/follow_**
+
+`request header`
+
+```
+- x-token: JsonWebToken
+```
+
+`request query`
+
+```
+- id: MongoID
+```
+
+`response data`
+
+```
+- ok: Boolean
+- msg: String
+```
+
+### **\_/api/user/unfollow**
 
 `request header`
 
@@ -42,7 +63,7 @@
 
 # auth API
 
-## **_/api/auth/login_**
+### **_/api/auth/login_**
 
 `request body`
 
@@ -59,7 +80,7 @@
 - token: JsonWebToken
 ```
 
-## **_/api/auth/refresh_**
+### **_/api/auth/refresh_**
 
 `request header`
 
@@ -77,7 +98,7 @@
 
 # post API
 
-## **_/api/post/create_**
+### **_/api/post/create_**
 
 `request header`
 
@@ -91,7 +112,23 @@
 - content: String
 ```
 
-## **_/api/post/all_**
+### **_/api/post/all_**
+
+`request header`
+
+```
+- x-token: JsonWebToken
+```
+
+`response data`
+
+```
+- ok: Boolean
+- msg: String
+- posts: Array
+```
+
+### **_/api/post_**
 
 `request header`
 
