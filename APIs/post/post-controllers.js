@@ -4,6 +4,7 @@ const { request, response } = require('express');
  * @models
  */
 const Post = require('../../database/models/Post');
+const User = require('../../database/models/User');
 
 const createPost = async (req = request, res = response) => {
   try {
@@ -68,7 +69,50 @@ const getAllPosts = async (req = request, res = response) => {
   }
 };
 
+const getPostsByFollowings = async (req = request, res = response) => {
+  try {
+    const userId = req._id;
+    const { limit = 20, skip = 0, lt } = req.query;
+
+    // obtener usuario
+    const user = await User.findById(userId);
+
+    // obtenemos usuarios que sigue el usuario
+    const usersFollowingsIds = user.followings.map((user) => user.toString());
+
+    console.log(usersFollowingsIds, limit, skip, lt);
+
+    // obtener posts de los usuarios a los que sigue
+    const posts = await Post.find({ added_by: { $in: usersFollowingsIds }, date: { $lt: lt } })
+      .populate('added_by', {
+        username: true,
+        name: true,
+        avatar: true,
+        _id: true,
+      })
+      .skip(skip)
+      .limit(limit)
+      .sort({ date: -1 });
+
+    console.log(posts);
+
+    // respuesta al frontend
+    res.status(200).json({
+      ok: true,
+      msg: 'get following posts',
+      posts,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Contacte con un administrador.',
+    });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
+  getPostsByFollowings,
 };
