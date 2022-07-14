@@ -1,6 +1,6 @@
 # user API
 
-### **_/api/user/signup_**
+### **_/api/user/signup_** **method: POST**
 
 `request body`
 
@@ -19,7 +19,7 @@
 - token: JsonWebToken
 ```
 
-### **_/api/user/follow_**
+### **_/api/user/follow_** **method: POST**
 
 `request header`
 
@@ -40,7 +40,7 @@
 - msg: String
 ```
 
-### **\_/api/user/unfollow**
+### **_/api/user/unfollow_** **method: POST**
 
 `request header`
 
@@ -63,7 +63,7 @@
 
 # auth API
 
-### **_/api/auth/login_**
+### **_/api/auth/login_** **method: POST**
 
 `request body`
 
@@ -80,7 +80,7 @@
 - token: JsonWebToken
 ```
 
-### **_/api/auth/refresh_**
+### **_/api/auth/refresh_** **method: GET**
 
 `request header`
 
@@ -98,7 +98,7 @@
 
 # post API
 
-### **_/api/post/create_**
+### **_/api/post/create_** **method: POST**
 
 `request header`
 
@@ -112,7 +112,7 @@
 - content: String
 ```
 
-### **_/api/post/all_**
+### **_/api/post/all_** **method: GET**
 
 `request header`
 
@@ -128,7 +128,7 @@
 - posts: Array
 ```
 
-### **_/api/post_**
+### **_/api/post_** **method: GET**
 
 `request header`
 
