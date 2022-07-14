@@ -1,24 +1,5 @@
 # user API
 
-### **_/api/user/signup_** **method: POST**
-
-`request body`
-
-```
-- name: String
-- username: String
-- email: String
-- password: String
-```
-
-`response data`
-
-```
-- ok: Boolean
-- msg: String
-- token: JsonWebToken
-```
-
 ### **_/api/user/follow_** **method: POST**
 
 `request header`
@@ -63,6 +44,26 @@
 
 # auth API
 
+### **_/api/auth/signup_** **method: POST**
+
+`request body`
+
+```
+- name: String
+- username: String
+- email: String
+- password: String
+```
+
+`response data`
+
+```
+- ok: Boolean
+- msg: String
+- token: JsonWebToken
+- user: Object
+```
+
 ### **_/api/auth/login_** **method: POST**
 
 `request body`
@@ -78,6 +79,7 @@
 - ok: Boolean
 - msg: String
 - token: JsonWebToken
+- user: Object
 ```
 
 ### **_/api/auth/refresh_** **method: GET**
