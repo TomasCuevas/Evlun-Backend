@@ -133,11 +133,24 @@ const authRefresh = async (req = request, res = response) => {
     // generar nuevo token
     const token = await generateJWT(_id, username);
 
+    // obtener usuario por id
+    const user = await User.findById(_id);
+
     // respuesta al frontend
     res.status(200).json({
       ok: true,
       msg: 'refresh',
       token,
+      user: {
+        _id: user._id,
+        avatar: user.avatar,
+        date: user.date,
+        email: user.email,
+        followers: user.followers,
+        followings: user.followings,
+        name: user.name,
+        username: user.username,
+      },
     });
   } catch (error) {
     console.log(error);
