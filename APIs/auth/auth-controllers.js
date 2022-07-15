@@ -106,7 +106,16 @@ const authLogin = async (req = request, res = response) => {
       ok: true,
       msg: 'login',
       token,
-      user,
+      user: {
+        _id: user._id,
+        avatar: user.avatar,
+        date: user.date,
+        email: user.email,
+        followers: user.followers,
+        followings: user.followings,
+        name: user.name,
+        username: user.username,
+      },
     });
   } catch (error) {
     console.log(error);
