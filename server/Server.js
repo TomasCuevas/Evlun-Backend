@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 /**
  * @dbConnection
@@ -26,6 +27,7 @@ class Server {
 
   middleware() {
     this.app.use(express.json());
+    this.app.use(cors());
   }
 
   routes() {

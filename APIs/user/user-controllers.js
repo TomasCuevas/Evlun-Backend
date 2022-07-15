@@ -104,7 +104,6 @@ const unfollowUser = async (req = request, res = response) => {
 };
 
 module.exports = {
-  userSignup,
   followUser,
   unfollowUser,
 };
