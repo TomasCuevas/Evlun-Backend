@@ -1,5 +1,5 @@
 const { request, response } = require('express');
-const bcryprjs = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 
 /**
  * @models
@@ -59,10 +59,10 @@ const authSignup = async (req = request, res = response) => {
       user: {
         _id: user._id,
         avatar: user.avatar,
-        date,
+        date: user.date,
         email,
-        followers,
-        followings,
+        followers: user.followers,
+        followings: user.followings,
         name,
         username,
       },
