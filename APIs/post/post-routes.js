@@ -15,7 +15,12 @@ const { fieldsValidation, JWTValidation } = require('../../middleware');
 /**
  * @controllers
  */
-const { createPost, getAllPosts, getPostsByFollowings } = require('./post-controllers');
+const {
+  createPost,
+  getAllPosts,
+  getPostsByFollowings,
+  getUserPosts,
+} = require('./post-controllers');
 
 /**
  * @routes
@@ -33,8 +38,14 @@ router.post(
   createPost,
 );
 
+router.get(
+  '/',
+  [check('id', 'El ID del usuario es requerido.').isMongoId(), fieldsValidation],
+  getUserPosts,
+);
+
 router.get('/all', [JWTValidation], getAllPosts);
 
-router.get('/', [JWTValidation], getPostsByFollowings);
+router.get('/followings', [JWTValidation], getPostsByFollowings);
 
 module.exports = router;
