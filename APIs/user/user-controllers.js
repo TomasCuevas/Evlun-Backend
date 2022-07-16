@@ -5,6 +5,42 @@ const { request, response } = require('express');
  */
 const User = require('../../database/models/User');
 
+const getUser = async (req = request, res = response) => {
+  try {
+    const { username } = req.params;
+
+    // buscar usuario por el username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No se encontro usuario con el username ingresado.',
+      });
+    }
+
+    // respues al frontend
+    res.status(200).json({
+      ok: true,
+      user: {
+        _id: user._id,
+        avatar: user.avatar,
+        date: user.date,
+        email: user.email,
+        followers: user.followers,
+        followings: user.followings,
+        name: user.name,
+        username: user.username,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Contacte con un administrador.',
+    });
+  }
+};
+
 const followUser = async (req = request, res = response) => {
   try {
     const userToFollowId = req.query.id;
@@ -105,5 +141,6 @@ const unfollowUser = async (req = request, res = response) => {
 
 module.exports = {
   followUser,
+  getUser,
   unfollowUser,
 };
