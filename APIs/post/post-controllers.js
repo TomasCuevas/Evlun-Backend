@@ -38,6 +38,36 @@ const createPost = async (req = request, res = response) => {
   }
 };
 
+const getUserPosts = async (req = request, res = response) => {
+  try {
+    const { id, limit = 20, skip = 0, lt } = req.query;
+
+    // obtener posts del usuario
+    const posts = await Post.find({ added_by: id, date: { $lt: lt } })
+      .populate('added_by', {
+        name: true,
+        avatar: true,
+        username: true,
+        _id: true,
+      })
+      .skip(skip)
+      .limit(limit)
+      .sort({ date: -1 });
+
+    // respuesta al frontend
+    res.status(200).json({
+      ok: true,
+      posts,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Contacte con un administrador.',
+    });
+  }
+};
+
 const getAllPosts = async (req = request, res = response) => {
   try {
     const { limit = 20, skip = 0, lt } = req.query;
@@ -57,7 +87,6 @@ const getAllPosts = async (req = request, res = response) => {
     // respuesta al frontend
     res.status(200).json({
       ok: true,
-      msg: 'get all posts',
       posts,
     });
   } catch (error) {
@@ -80,8 +109,6 @@ const getPostsByFollowings = async (req = request, res = response) => {
     // obtenemos usuarios que sigue el usuario
     const usersFollowingsIds = user.followings.map((user) => user.toString());
 
-    console.log(usersFollowingsIds, limit, skip, lt);
-
     // obtener posts de los usuarios a los que sigue
     const posts = await Post.find({ added_by: { $in: usersFollowingsIds }, date: { $lt: lt } })
       .populate('added_by', {
@@ -94,12 +121,9 @@ const getPostsByFollowings = async (req = request, res = response) => {
       .limit(limit)
       .sort({ date: -1 });
 
-    console.log(posts);
-
     // respuesta al frontend
     res.status(200).json({
       ok: true,
-      msg: 'get following posts',
       posts,
     });
   } catch (error) {
@@ -115,4 +139,5 @@ module.exports = {
   createPost,
   getAllPosts,
   getPostsByFollowings,
+  getUserPosts,
 };
