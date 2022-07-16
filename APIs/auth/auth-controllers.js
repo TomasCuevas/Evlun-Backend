@@ -90,7 +90,7 @@ const authLogin = async (req = request, res = response) => {
     }
 
     // verificar contraseña
-    const passwordVerify = bcryprjs.compareSync(password, user.password);
+    const passwordVerify = bcryptjs.compareSync(password, user.password);
     if (!passwordVerify) {
       return res.status(400).json({
         ok: false,
