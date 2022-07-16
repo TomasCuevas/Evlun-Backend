@@ -3,7 +3,7 @@
  * /api/user
  */
 const { Router } = require('express');
-const { check } = require('express-validator');
+const { check, param } = require('express-validator');
 
 const router = Router();
 
@@ -15,12 +15,18 @@ const { fieldsValidation, JWTValidation } = require('../../middleware');
 /**
  * @controllers
  */
-const { followUser, unfollowUser } = require('./user-controllers');
+const { followUser, unfollowUser, getUser } = require('./user-controllers');
 const differentIdsValidation = require('../../middleware/differentIdsValidation');
 
 /**
  * @routes
  */
+router.get(
+  '/:username',
+  [param('username', 'El nombre de usuario es requerido.').not().isEmpty(), fieldsValidation],
+  getUser,
+);
+
 router.post(
   '/follow',
   [
