@@ -3,7 +3,7 @@
  * /api/user
  */
 const { Router } = require('express');
-const { check, param } = require('express-validator');
+const { check } = require('express-validator');
 
 const router = Router();
 
@@ -22,8 +22,8 @@ const differentIdsValidation = require('../../middleware/differentIdsValidation'
  * @routes
  */
 router.get(
-  '/:username',
-  [param('username', 'El nombre de usuario es requerido.').not().isEmpty(), fieldsValidation],
+  '/',
+  [check('username', 'El nombre de usuario es requerido.').not().isEmpty(), fieldsValidation],
   getUser,
 );
 

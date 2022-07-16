@@ -7,7 +7,7 @@ const User = require('../../database/models/User');
 
 const getUser = async (req = request, res = response) => {
   try {
-    const { username } = req.params;
+    const { username } = req.query;
 
     // buscar usuario por el username
     const user = await User.findOne({ username });
