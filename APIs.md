@@ -1,5 +1,20 @@
 # user API
 
+### **_/api/user_** **method: GET**
+
+`request query`
+
+```
+- username: String
+```
+
+`response data`
+
+```
+- ok: Boolean
+- user: Object
+```
+
 ### **_/api/user/follow_** **method: POST**
 
 `request header`
@@ -96,6 +111,7 @@
 - ok: Boolean
 - msg: String
 - token: JsonWebToken
+- user: Object
 ```
 
 # post API
@@ -114,6 +130,29 @@
 - content: String
 ```
 
+`response data`
+
+```
+- ok: Boolean
+- msg: String
+- post: Object
+```
+
+### **_/api/post_** **method: GET**
+
+`request query`
+
+```
+- id: MongoID
+```
+
+`response data`
+
+```
+- ok: Boolean
+- posts: Array
+```
+
 ### **_/api/post/all_** **method: GET**
 
 `request header`
@@ -130,7 +169,7 @@
 - posts: Array
 ```
 
-### **_/api/post_** **method: GET**
+### **_/api/post/followings_** **method: GET**
 
 `request header`
 
