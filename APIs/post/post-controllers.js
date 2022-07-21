@@ -38,6 +38,37 @@ const createPost = async (req = request, res = response) => {
   }
 };
 
+const getPost = async (req = request, res = response) => {
+  try {
+    const { id } = req.query;
+
+    // obtener post
+    const post = await Post.findById(id).populate('added_by', {
+      avatar: true,
+      id: true,
+      name: true,
+      username: true,
+    });
+    if (!post) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No se encontro post con el ID ingresado.',
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      post,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Contacte con un administrador.',
+    });
+  }
+};
+
 const getUserPosts = async (req = request, res = response) => {
   try {
     const { id, limit = 20, skip = 0, lt } = req.query;
@@ -138,6 +169,7 @@ const getPostsByFollowings = async (req = request, res = response) => {
 module.exports = {
   createPost,
   getAllPosts,
+  getPost,
   getPostsByFollowings,
   getUserPosts,
 };
