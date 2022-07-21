@@ -150,6 +150,21 @@
 
 ```
 - ok: Boolean
+- post: Array
+```
+
+### **_/api/post/user_** **method: GET**
+
+`request query`
+
+```
+- id: MongoID
+```
+
+`response data`
+
+```
+- ok: Boolean
 - posts: Array
 ```
 
